@@ -249,6 +249,9 @@ case $1 in
 		"$thisScript" relay > relay.log 2>&1 &
 		RELAYPID=$!
 		THISPGID=$(ps -o pgid= "$RELAYPID" | sed -e "s/^ //")
+
+		trap 'echo; echo "Gonna run kill -TERM -- -$THISPGID"; kill -TERM -- -$THISPGID' 2
+
 		echo -e "$okMsg"
 
 		sleep "$sleeptime_between_spawns"
@@ -270,10 +273,8 @@ case $1 in
 
 		done
 
-		read -p "PriFi deployed. Press [enter] to kill all..." key
-		echo "Gonna run kill -TERM -- -\"$THISPGID\""
-
-		kill -TERM -- -"$THISPGID"
+		echo "PriFi deployed. Press ^C to kill all..."
+		wait
 		;;
 
 	gen-id|Gen-Id|GEN-ID)

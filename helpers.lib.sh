@@ -32,7 +32,7 @@ test_go(){
     fi
     GO_VER=$(go version 2>&1 | sed 's/.*version go\([[:digit:]]*\)\.\([[:digit:]]*\)\(.*\)/\1\2/; 1q')
     if [ "$GO_VER" -lt "$min_go_version" ]; then
-        echo -e "$errorMsg Go >= 1.7.0 is required"
+        echo "$errorMsg Go >= $(echo $min_go_version | sed 's/./&./') is required"
         exit 1
     fi
 }
